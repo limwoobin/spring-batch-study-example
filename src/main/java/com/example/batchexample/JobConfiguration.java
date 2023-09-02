@@ -1,6 +1,7 @@
 package com.example.batchexample;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -10,6 +11,9 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Date;
+import java.util.Map;
 
 @Configuration
 public class JobConfiguration {
@@ -35,6 +39,14 @@ public class JobConfiguration {
       .tasklet(new Tasklet() {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+          JobParameters jobParameters = contribution.getStepExecution().getJobParameters();
+          String name = jobParameters.getString("name");
+          Long seq = jobParameters.getLong("seq");
+          Date birth = jobParameters.getDate("birth");
+          Double length = jobParameters.getDouble("length");
+
+          Map<String, Object> params = chunkContext.getStepContext().getJobParameters();
+
           System.out.println("=====================");
           System.out.println("step1 was executed");
           System.out.println("=====================");
