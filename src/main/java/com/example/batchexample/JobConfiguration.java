@@ -12,19 +12,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DBJobConfiguration {
+public class JobConfiguration {
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
 
-
-  public DBJobConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+  public JobConfiguration(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
     this.jobBuilderFactory = jobBuilderFactory;
     this.stepBuilderFactory = stepBuilderFactory;
   }
 
   @Bean
-  public Job job() {
-    return jobBuilderFactory.get("job")
+  public Job job2() {
+    return jobBuilderFactory.get("job2")
       .start(step1())
       .next(step2())
       .build();
@@ -36,11 +35,12 @@ public class DBJobConfiguration {
       .tasklet(new Tasklet() {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+          System.out.println("=====================");
           System.out.println("step1 was executed");
+          System.out.println("=====================");
           return RepeatStatus.FINISHED;
         }
-      })
-      .build();
+      }).build();
   }
 
   @Bean
@@ -49,10 +49,11 @@ public class DBJobConfiguration {
       .tasklet(new Tasklet() {
         @Override
         public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+          System.out.println("=====================");
           System.out.println("step2 was executed");
-          return RepeatStatus.FINISHED;
+          System.out.println("=====================");
+          return null;
         }
-      })
-      .build();
+      }).build();
   }
 }
