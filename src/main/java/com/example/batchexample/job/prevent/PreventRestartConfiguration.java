@@ -1,4 +1,4 @@
-package com.example.batchexample.prevent;
+package com.example.batchexample.job.prevent;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;

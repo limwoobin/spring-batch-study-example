@@ -1,41 +1,41 @@
-package com.example.batchexample.validator;
+package com.example.batchexample.job.incrementer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.job.DefaultJobParametersValidator;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class ValidatorConfiguration {
-
+public class IncrementerConfiguration {
+  
   private final JobBuilderFactory jobBuilderFactory;
   private final StepBuilderFactory stepBuilderFactory;
 
   @Bean
-  public Job batchJob() {
+  public Job incrementerBatchJob() {
     return jobBuilderFactory.get("validatorBatchJob")
-      .start(validatorStep1())
-      .next(validatorStep2())
-//      .validator(new CustomJobParameterValidator())
-      .validator(new DefaultJobParametersValidator(new String[]{"name", "date"}, new String[]{"count"}))
+      .start(incrementerStep1())
+      .next(incrementerStep2())
+//      .incrementer(new CustomJobParametersIncrementer())
+      .incrementer(new RunIdIncrementer())
       .build();
   }
 
   @Bean
-  public Step validatorStep1() {
-    return stepBuilderFactory.get("validatorStep1")
+  public Step incrementerStep1() {
+    return stepBuilderFactory.get("incrementerStep1")
       .tasklet((stepContribution, chunkContext) -> RepeatStatus.FINISHED).build();
   }
 
   @Bean
-  public Step validatorStep2() {
-    return stepBuilderFactory.get("validatorStep2")
+  public Step incrementerStep2() {
+    return stepBuilderFactory.get("incrementerStep2")
       .tasklet((stepContribution, chunkContext) -> RepeatStatus.FINISHED).build();
   }
 }
