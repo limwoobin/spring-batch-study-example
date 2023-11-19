@@ -1,4 +1,4 @@
-package com.example.batchexample.job.incrementer;
+package com.example.batchexample.simple.job.incrementer;
 
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;

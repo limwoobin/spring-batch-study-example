@@ -1,4 +1,4 @@
-package com.example.batchexample.step;
+package com.example.batchexample.simple.step;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
