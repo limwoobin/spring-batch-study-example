@@ -1,4 +1,4 @@
-package com.example.batchexample.batch.example;
+package com.example.batchexample.batch.chunk_single.example;
 
 import com.example.batchexample.domain.PostRepository;
 import org.springframework.batch.core.StepExecution;
@@ -8,8 +8,6 @@ import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class ChunkExampleItemReader implements ItemReader<Long> {

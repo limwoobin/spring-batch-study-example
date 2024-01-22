@@ -1,4 +1,4 @@
-package com.example.batchexample.batch.example;
+package com.example.batchexample.batch.chunk_single.example;
 
 import com.example.batchexample.domain.Post;
 import com.example.batchexample.domain.PostRepository;

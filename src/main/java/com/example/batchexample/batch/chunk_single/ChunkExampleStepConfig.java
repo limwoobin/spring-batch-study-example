@@ -1,8 +1,8 @@
-package com.example.batchexample.batch;
+package com.example.batchexample.batch.chunk_single;
 
-import com.example.batchexample.batch.example.ChunkExampleItemProcessor;
-import com.example.batchexample.batch.example.ChunkExampleItemReader;
-import com.example.batchexample.batch.example.ChunkExampleItemWriter;
+import com.example.batchexample.batch.chunk_single.example.ChunkExampleItemProcessor;
+import com.example.batchexample.batch.chunk_single.example.ChunkExampleItemReader;
+import com.example.batchexample.batch.chunk_single.example.ChunkExampleItemWriter;
 import com.example.batchexample.domain.Post;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
