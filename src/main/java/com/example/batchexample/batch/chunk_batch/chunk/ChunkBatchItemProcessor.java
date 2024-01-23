@@ -28,6 +28,7 @@ public class ChunkBatchItemProcessor implements ItemProcessor<List<Long>, List<P
 
       Post post = optionalPost.get();
       post.changeTitle(post.getTitle() + "-");
+      posts.add(post);
     }
 
     return posts;
