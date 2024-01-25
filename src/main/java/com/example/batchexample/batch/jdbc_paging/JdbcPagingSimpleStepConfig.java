@@ -20,14 +20,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class JdbcSimpleStepConfig {
+public class JdbcPagingSimpleStepConfig {
   public static final String STEP_NAME = "jdbcSimpleStep";
 
   private final StepBuilderFactory stepBuilderFactory;
   private final DataSource dataSource;
 
-  public JdbcSimpleStepConfig(StepBuilderFactory stepBuilderFactory,
-                              DataSource dataSource) {
+  public JdbcPagingSimpleStepConfig(StepBuilderFactory stepBuilderFactory,
+                                    DataSource dataSource) {
     this.stepBuilderFactory = stepBuilderFactory;
     this.dataSource = dataSource;
   }
@@ -85,6 +85,8 @@ public class JdbcSimpleStepConfig {
 
   @Bean
   public JdbcBatchItemWriter<Post> jdbcBatchItemWriter() {
+    // writer 에는 chunk 의 개수만큼 모아서 writer 한다
+    // 쿼리를 모아서 db 에 한번에 전송
     return new JdbcBatchItemWriterBuilder<Post>()
       .dataSource(dataSource)
       .sql("update posts set title=:title where id=:id")

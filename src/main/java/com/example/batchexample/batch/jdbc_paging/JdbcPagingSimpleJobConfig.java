@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JdbcSimpleJobConfig {
+public class JdbcPagingSimpleJobConfig {
   public static final String JOB_NAME = "jdbcSimpleJob";
 
   private final JobBuilderFactory jobBuilderFactory;
   private final Step jdbcSimpleStep;
 
-  public JdbcSimpleJobConfig(JobBuilderFactory jobBuilderFactory,
-                             @Qualifier(value = JdbcSimpleStepConfig.STEP_NAME) Step jdbcSimpleStep) {
+  public JdbcPagingSimpleJobConfig(JobBuilderFactory jobBuilderFactory,
+                                   @Qualifier(value = JdbcPagingSimpleStepConfig.STEP_NAME) Step jdbcSimpleStep) {
     this.jobBuilderFactory = jobBuilderFactory;
     this.jdbcSimpleStep = jdbcSimpleStep;
   }
