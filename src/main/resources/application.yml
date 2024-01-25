@@ -17,3 +17,11 @@ spring:
       initialize-schema: never
     job:
       enabled: false
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        batch: DEBUG
