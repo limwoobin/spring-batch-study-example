@@ -3,11 +3,13 @@ package com.example.batchexample.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity(name = "posts")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
 
@@ -31,6 +33,6 @@ public class Post {
   }
 
   public void changeTitle(String title) {
-    this.title = title;
+    this.title += title;
   }
 }

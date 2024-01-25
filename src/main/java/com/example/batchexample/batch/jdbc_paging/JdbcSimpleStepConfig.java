@@ -4,6 +4,7 @@ import com.example.batchexample.domain.Post;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.Order;
@@ -13,7 +14,6 @@ import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuild
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -35,23 +35,24 @@ public class JdbcSimpleStepConfig {
   @Bean
   public Step jdbcSimpleStep() throws Exception {
     return stepBuilderFactory.get(STEP_NAME)
-      .<Post, Post>chunk(1)
+      .<Post, Post>chunk(20)
       .reader(jdbcPagingItemReader())
       .processor(itemProcessor())
-      .writer(itemWriter())
+      .writer(jdbcBatchItemWriter())
+//      .writer(itemWriter())
       .build();
   }
 
   @Bean
   public JdbcPagingItemReader<Post> jdbcPagingItemReader() throws Exception {
     Map<String, Object> parameterValues = new HashMap<>();
-    parameterValues.put("id", 200);
+    parameterValues.put("id", 50);
 
     return new JdbcPagingItemReaderBuilder<Post>()
       .pageSize(20)
       .fetchSize(20)
       .dataSource(dataSource)
-      .rowMapper(new BeanPropertyRowMapper<>(Post.class))
+      .beanRowMapper(Post.class)
       .queryProvider(createQueryProvider())
       .parameterValues(parameterValues)
       .name("jdbcPagingItemReader")
@@ -77,18 +78,26 @@ public class JdbcSimpleStepConfig {
   @Bean
   public ItemProcessor<Post, Post> itemProcessor() {
     return item -> {
-      item.changeTitle("-jdbc-test");
+      item.changeTitle("zz");
       return item;
     };
   }
 
   @Bean
-  public JdbcBatchItemWriter<Post> itemWriter() {
+  public JdbcBatchItemWriter<Post> jdbcBatchItemWriter() {
     return new JdbcBatchItemWriterBuilder<Post>()
       .dataSource(dataSource)
       .sql("update posts set title=:title where id=:id")
       .beanMapped()
       .assertUpdates(false)
       .build();
+  }
+
+  private ItemWriter<Post> itemWriter() {
+    return items -> {
+      for (Post item : items) {
+        System.out.println(item.getId());
+      }
+    };
   }
 }
