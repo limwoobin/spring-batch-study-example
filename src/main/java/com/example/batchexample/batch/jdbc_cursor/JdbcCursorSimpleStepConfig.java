@@ -41,8 +41,7 @@ public class JdbcCursorSimpleStepConfig {
       .build();
   }
 
-  @Bean
-  public JdbcCursorItemReader<Post> jdbcCursorItemReader() {
+  private JdbcCursorItemReader<Post> jdbcCursorItemReader() {
     String sql = "select id, title, author from posts where id <= :id order by id asc";
     Map<String, Object> namedParameters = new HashMap<>();
     namedParameters.put("id", 50);
