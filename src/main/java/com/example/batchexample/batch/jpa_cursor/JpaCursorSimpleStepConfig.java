@@ -6,6 +6,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaCursorItemReader;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,8 @@ public class JpaCursorSimpleStepConfig {
       .<Post, Post>chunk(CHUNK_SIZE)
       .reader(jpaCursorItemReader())
       .processor(itemProcessor())
-      .writer(itemWriter())
+//      .writer(itemWriter())
+      .writer(jpaItemWriter())
       .build();
   }
 
@@ -65,5 +67,11 @@ public class JpaCursorSimpleStepConfig {
         System.out.println(item.getId() + ", " + item.getTitle());
       }
     };
+  }
+
+  private JpaItemWriter<Post> jpaItemWriter() {
+    JpaItemWriter<Post> jpaItemWriter = new JpaItemWriter<>();
+    jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
+    return jpaItemWriter;
   }
 }

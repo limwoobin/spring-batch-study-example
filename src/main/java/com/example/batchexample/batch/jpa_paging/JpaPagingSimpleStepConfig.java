@@ -9,6 +9,7 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
@@ -86,5 +87,11 @@ public class JpaPagingSimpleStepConfig {
         System.out.println(item.getId() + ", " + item.getTitle());
       }
     };
+  }
+
+  private JpaItemWriter<Post> jpaItemWriter() {
+    JpaItemWriter<Post> jpaItemWriter = new JpaItemWriter<>();
+    jpaItemWriter.setEntityManagerFactory(entityManagerFactory);
+    return jpaItemWriter;
   }
 }
