@@ -35,8 +35,8 @@ public class JpaCursorSimpleStepConfig {
       .<Post, Post>chunk(CHUNK_SIZE)
       .reader(jpaCursorItemReader())
       .processor(itemProcessor())
-//      .writer(itemWriter())
-      .writer(jpaItemWriter())
+      .writer(itemWriter())
+//      .writer(jpaItemWriter())
       .build();
   }
 
