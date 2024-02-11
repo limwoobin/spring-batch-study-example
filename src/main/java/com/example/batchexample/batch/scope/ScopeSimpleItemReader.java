@@ -23,19 +23,6 @@ public class ScopeSimpleItemReader {
     this.entityManagerFactory = entityManagerFactory;
   }
 
-  @BeforeStep
-  public void before(StepExecution stepExecution) {
-    String result = "";
-
-    if (stepExecution == null) {
-      throw new NullPointerException("StepExecution is null.");
-    }
-
-    result = stepExecution.getJobParameters().getString("param");
-    System.out.println("beforeStep: " + result);
-  }
-
-
   @Bean
   @StepScope
   public JpaPagingItemReader<Post> scopeItemReader(@Value("#{jobParameters[param]}") String param) {

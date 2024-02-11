@@ -2,8 +2,6 @@ package com.example.batchexample.batch.scope;
 
 import com.example.batchexample.domain.Post;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
@@ -21,24 +19,15 @@ public class ScopeSimpleStepConfig {
 
   private final StepBuilderFactory stepBuilderFactory;
   private final ItemReader<Post> itemReader;
+  private final ScopeSimpleItemReaderV2 scopeSimpleItemReaderV2;
 
   public ScopeSimpleStepConfig(StepBuilderFactory stepBuilderFactory,
-                               @Qualifier(value = "scopeItemReader") ItemReader<Post> itemReader) {
+                               @Qualifier(value = "scopeItemReader") ItemReader<Post> itemReader,
+                               ScopeSimpleItemReaderV2 scopeSimpleItemReaderV2) {
     this.stepBuilderFactory = stepBuilderFactory;
     this.itemReader = itemReader;
+    this.scopeSimpleItemReaderV2 = scopeSimpleItemReaderV2;
   }
-
-//  @BeforeStep
-//  public void beforeStep(StepExecution stepExecution) {
-//    String result = "";
-//
-//    if (stepExecution == null) {
-//      throw new NullPointerException("StepExecution is null.");
-//    }
-//
-//    result = stepExecution.getJobParameters().getString("param");
-//    System.out.println(result);
-//  }
 
   @Bean
   @JobScope
@@ -47,7 +36,8 @@ public class ScopeSimpleStepConfig {
 
     return stepBuilderFactory.get(STEP_NAME)
       .<Post, Post>chunk(CHUNK_SIZE)
-      .reader(itemReader)
+//      .reader(itemReader)
+      .reader(scopeSimpleItemReaderV2)
       .writer(jpaItemWriter())
       .build();
   }
