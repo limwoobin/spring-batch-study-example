@@ -35,14 +35,11 @@ public class CustomItemStreamReader implements ItemStreamReader<String> {
     if (executionContext.containsKey("index")) {
       this.index = executionContext.getInt("index");
       this.restart = true;
-//      return;
-    } else {
-      this.index = 0;
-      executionContext.put("index", index);
+      return;
     }
 
-//    this.index = 0;
-//    executionContext.put("index", index);
+    this.index = 0;
+    executionContext.put("index", index);
   }
 
   @Override
