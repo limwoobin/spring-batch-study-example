@@ -35,4 +35,13 @@ public class Post {
   public void changeTitle(String title) {
     this.title += title;
   }
+
+  @Override
+  public String toString() {
+    return "Post{" +
+      "id=" + id +
+      ", title='" + title + '\'' +
+      ", author='" + author + '\'' +
+      '}';
+  }
 }

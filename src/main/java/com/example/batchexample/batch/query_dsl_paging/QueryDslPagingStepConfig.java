@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +18,7 @@ import static com.example.batchexample.domain.QPost.post;
 @Configuration
 public class QueryDslPagingStepConfig {
   public static final String STEP_NAME = "queryDslPagingStep";
-  public static final int CHUNK_SIZE = 1000;
+  public static final int CHUNK_SIZE = 2;
 
   private final StepBuilderFactory stepBuilderFactory;
   private final EntityManagerFactory emf;
@@ -34,14 +35,24 @@ public class QueryDslPagingStepConfig {
   @Bean
   public Step queryDslPagingStep() {
     return stepBuilderFactory.get(STEP_NAME)
-      .tasklet(null)
+      .<Post, Post>chunk(2)
+      .reader(queryDslPagingItemReader())
+      .writer(itemWriter())
       .build();
   }
 
-  public QueryDslPagingItemReader<Post> queryDslPagingItemReader() {
+  private QueryDslPagingItemReader<Post> queryDslPagingItemReader() {
     JPAQuery<Post> jpaQuery = jpaQueryFactory.selectFrom(post)
       .where(post.id.lt(10));
 
     return new QueryDslPagingItemReader<>(emf, CHUNK_SIZE, queryFactory -> jpaQuery);
+  }
+
+  private ItemWriter<Post> itemWriter() {
+    return items -> {
+      for (Post item : items) {
+        System.out.println(item);
+      }
+    };
   }
 }
