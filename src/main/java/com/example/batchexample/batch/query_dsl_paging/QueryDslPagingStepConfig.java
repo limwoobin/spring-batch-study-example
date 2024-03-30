@@ -18,7 +18,7 @@ import static com.example.batchexample.domain.QPost.post;
 @Configuration
 public class QueryDslPagingStepConfig {
   public static final String STEP_NAME = "queryDslPagingStep";
-  public static final int CHUNK_SIZE = 2;
+  public static final int CHUNK_SIZE = 1000;
 
   private final StepBuilderFactory stepBuilderFactory;
   private final EntityManagerFactory emf;
